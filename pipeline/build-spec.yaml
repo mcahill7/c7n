@@ -1,0 +1,43 @@
+version: 0.2
+
+env:
+  variables:
+    CFN_TEMPLATES: |
+      cluster
+      service
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 2.6
+    commands:
+      - echo 'Build' action Install phase - install testing dependencies
+      - gem install bundler cfn-nag rubocop
+      - bundle install
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&
+
+  pre_build:
+    commands:
+      - echo Linting started on `date`
+      - |
+        for cfn_template in $CFN_TEMPLATES; do
+          echo "Scanning CloudFormation template $cfn_template"
+          cfn_nag_scan --input-path infrastructure/$cfn_template.yaml --blacklist-path blacklist
+        done
+      - echo Running rubocop
+      - rubocop
+
+  build:
+    commands:
+      - rake docker:build
+      - rake ci:test
+
+  post_build:
+    commands:
+      - rake docker:tag
+      - rake docker:push
+
+artifacts:
+  files:
+    - '**/*'
+type: zip

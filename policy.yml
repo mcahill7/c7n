@@ -1,0 +1,7 @@
+policies:
+  - name: Owner-Tag-Presence
+    resource: aws.ec2
+    filters:
+      - "tag:Owner": present
+    actions:
+      - stop

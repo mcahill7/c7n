@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - export LC_ALL="en_US.UTF-8"
+      - locale-gen en_US en_US.UTF-8
+      - dpkg-reconfigure locales
+
+  install:
+    runtime-versions:
+      ruby: 2.6
+    commands:
+      - echo 'Build' action Install phase - install testing dependencies
+      - gem install bundler
+      - bundle install
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - rake deploy:cluster
+      - rake deploy:service
+  
+  post_build:
+    commands:
+      - echo Running Aws Tests
+      - rake infra:test
+
+artifacts:
+  files:
+    - '**/*'
+type: zip
