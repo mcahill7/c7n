@@ -198,7 +198,8 @@ Resources:
   # ECS Resources
   ECSCluster:
     Type: AWS::ECS::Cluster
-    ClusterName: c7n-cluster
+    Properties:
+      ClusterName: c7n-cluster
 
   # A security group for the containers we will run in Fargate.
   # Three rules, allowing network traffic from a public facing load
