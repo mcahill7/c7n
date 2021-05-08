@@ -52,7 +52,7 @@ task 'create:service' do
         parameter_value: "#{File.read(@ecr_repo_url_path)}/c7n:#{version}"
       },
       {
-        parameter_key: 'ParentStackName',
+        parameter_key: 'StackName',
         parameter_value: @cluster_name
       },
       {
@@ -83,7 +83,7 @@ task 'update:service' do
         parameter_value: "#{File.read(@ecr_repo_url_path)}/c7n:#{version}"
       },
       {
-        parameter_key: 'ParentStackName',
+        parameter_key: 'StackName',
         parameter_value: @cluster_name
       },
       {
