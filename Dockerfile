@@ -1,56 +1,39 @@
-FROM ubuntu:20.04 as build-env
+FROM python:3.9-alpine
 
-# pre-requisite distro deps, and build env setup
-RUN adduser --disabled-login --gecos "" custodian
-RUN apt-get --yes update
-RUN apt-get --yes install build-essential curl python3-venv python3-dev --no-install-recommends
-RUN python3 -m venv /usr/local
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+ARG BUILD_DATE
+ARG VCS_REF
+ARG C7N_VERSION
 
-WORKDIR /src
+LABEL org.opencontainers.image.title="bdwyertech/c7n" \
+      org.opencontainers.image.version=$C7N_VERSION \
+      org.opencontainers.image.description="For running Cloud Custodian ($C7N_VERSION) within a CI Environment" \
+      org.opencontainers.image.authors="Brian Dwyer <bdwyertech@github.com>" \
+      org.opencontainers.image.url="https://hub.docker.com/r/bdwyertech/c7n" \
+      org.opencontainers.image.source="https://github.com/bdwyertech/docker-c7n.git" \
+      org.opencontainers.image.revision=$VCS_REF \
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.label-schema.name="bdwyertech/c7n" \
+      org.label-schema.description="For running Cloud Custodian ($C7N_VERSION) within a CI Environment" \
+      org.label-schema.url="https://hub.docker.com/r/bdwyertech/c7n" \
+      org.label-schema.vcs-url="https://github.com/bdwyertech/docker-c7n.git" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.build-date=$BUILD_DATE
 
-# Add core & aws packages
-ADD pyproject.toml poetry.lock README.md /src/
-ADD c7n /src/c7n/
-RUN . /usr/local/bin/activate && $HOME/.poetry/bin/poetry install --no-dev
-RUN . /usr/local/bin/activate && pip install -q wheel
-RUN . /usr/local/bin/activate && pip install -q aws-xray-sdk psutil jsonpatch
+ENV PYTHONUNBUFFERED 1
 
-# Add provider packages
-ADD tools/c7n_gcp /src/tools/c7n_gcp
-RUN rm -R tools/c7n_gcp/tests
-ADD tools/c7n_azure /src/tools/c7n_azure
-RUN rm -R tools/c7n_azure/tests_azure
-ADD tools/c7n_kube /src/tools/c7n_kube
-RUN rm -R tools/c7n_kube/tests
+ADD requirements.txt .
+RUN apk add --no-cache bash git libgit2 \
+    && apk add --no-cache --virtual .build-deps build-base libffi-dev libgit2-dev \
+    && python -m pip install --upgrade pip \
+    && python -m pip install --upgrade pipenv \
+    && python -m pip install -r requirements.txt \
+    && apk del .build-deps \
+    && rm requirements.txt \
+    && rm -rf ~/.cache/pip \
+    && adduser c7n -S -h /home/c7n
 
-# Install requested providers
-ARG providers="azure gcp kube"
-RUN . /usr/local/bin/activate && \
-    for pkg in $providers; do cd tools/c7n_$pkg && \
-    $HOME/.poetry/bin/poetry install && cd ../../; done
-
-RUN mkdir /output
-
-FROM ubuntu:20.04
-
-LABEL name="cli" \
-      repository="http://github.com/cloud-custodian/cloud-custodian"
-
-COPY --from=build-env /src /src
-COPY --from=build-env /usr/local /usr/local
-COPY --from=build-env /output /output
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get --yes update \
-        && apt-get --yes install python3 python3-venv --no-install-recommends \
-        && rm -Rf /var/cache/apt \
-        && rm -Rf /var/lib/apt/lists/* \
-        && rm -Rf /var/log/*
-
-RUN adduser --disabled-login --gecos "" custodian
-USER custodian
-WORKDIR /home/custodian
-ENV LC_ALL="C.UTF-8" LANG="C.UTF-8"
-VOLUME ["/home/custodian"]
-ENTRYPOINT ["/usr/local/bin/custodian"]
-CMD ["--help"]
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+USER c7n
+WORKDIR /home/c7n
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["custodian"]
