@@ -13,6 +13,5 @@ describe 'Dockerfile' do
 
   describe user('c7n') do
     it { should exist }
-    it { should belong_to_group 'c7n' }
   end
 end
