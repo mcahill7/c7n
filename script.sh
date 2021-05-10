@@ -1,5 +1,3 @@
 #!/bin/bash
-timestamp=`date +%Y/%m/%d-%H:%M:%S`
-echo "System path is $PATH at $timestamp"
 export PATH=$:PATH:/usr/local/bin/
-custodian -h
+custodian run --log-group=/cloud-custodian/dev/us-east-1 -s / /policy.yml --region us-east-1

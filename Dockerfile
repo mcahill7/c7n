@@ -8,5 +8,6 @@ RUN pip install c7n
 # Add files
 ADD script.sh script.sh
 ADD entrypoint.sh /entrypoint.sh
+Add policy.yml /policy.yml
 
 ENTRYPOINT /entrypoint.sh
