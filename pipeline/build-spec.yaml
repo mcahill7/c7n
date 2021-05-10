@@ -34,6 +34,7 @@ phases:
 
   post_build:
     commands:
+      - rake deploy:ecr
       - rake docker:tag
       - rake docker:push
 
