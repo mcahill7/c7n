@@ -12,6 +12,6 @@ describe 'Dockerfile' do
   end
 
   describe user('c7n') do
-    #it { should exist }
+    it { should exist }
   end
 end
