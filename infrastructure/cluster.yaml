@@ -412,30 +412,30 @@ Resources:
                 - 'ecr:BatchCheckLayerAvailability'
                 - 'ecr:GetDownloadUrlForLayer'
                 - 'ecr:BatchGetImage'
-                - 'cloudwatch:PutMetricData',
-                - 'ec2:DescribeNetworkInterfaces',
-                - 'ec2:DeleteNetworkInterface',
-                - 'ec2:CreateNetworkInterface',
-                - 'events:PutRule',
-                - 'events:PutTargets',
-                - 'iam:PassRole',
-                - 'lambda:CreateFunction',
-                - 'lambda:TagResource',
-                - 'lambda:CreateEventSourceMapping',
-                - 'lambda:UntagResource',
-                - 'lambda:PutFunctionConcurrency',
-                - 'lambda:DeleteFunction',
-                - 'lambda:UpdateEventSourceMapping',
-                - 'lambda:InvokeFunction',
-                - 'lambda:UpdateFunctionConfiguration',
-                - 'lambda:UpdateAlias',
-                - 'lambda:UpdateFunctionCode',
-                - 'lambda:AddPermission',
-                - 'lambda:DeleteAlias',
-                - 'lambda:DeleteFunctionConcurrency',
-                - 'lambda:DeleteEventSourceMapping',
-                - 'lambda:RemovePermission',
-                - 'lambda:CreateAlias',
+                - 'cloudwatch:PutMetricData'
+                - 'ec2:DescribeNetworkInterfaces'
+                - 'ec2:DeleteNetworkInterface'
+                - 'ec2:CreateNetworkInterface'
+                - 'events:PutRule'
+                - 'events:PutTargets'
+                - 'iam:PassRole'
+                - 'lambda:CreateFunction'
+                - 'lambda:TagResource'
+                - 'lambda:CreateEventSourceMapping'
+                - 'lambda:UntagResource'
+                - 'lambda:PutFunctionConcurrency'
+                - 'lambda:DeleteFunction'
+                - 'lambda:UpdateEventSourceMapping'
+                - 'lambda:InvokeFunction'
+                - 'lambda:UpdateFunctionConfiguration'
+                - 'lambda:UpdateAlias'
+                - 'lambda:UpdateFunctionCode'
+                - 'lambda:AddPermission'
+                - 'lambda:DeleteAlias'
+                - 'lambda:DeleteFunctionConcurrency'
+                - 'lambda:DeleteEventSourceMapping'
+                - 'lambda:RemovePermission'
+                - 'lambda:CreateAlias'
                 # Allow the ECS tasks to upload logs to CloudWatch
                 - 'logs:CreateLogStream'
                 - 'logs:PutLogEvents'
