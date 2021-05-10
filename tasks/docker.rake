@@ -94,3 +94,18 @@ task 'ecr:create' do
 
   puts "Cloudformation Stack: #{@stack_name} created."
 end
+
+desc 'Update ECR repository'
+task 'ecr:update' do
+  cloudformation_client = Aws::CloudFormation::Client.new
+
+  cloudformation_client.update_stack(
+    stack_name: @ecr_name,
+    template_body: File.read('infrastructure/ecr.yaml').to_s
+  )
+
+  cloudformation_client.wait_until(:stack_update_complete,
+                                   stack_name: @ecr_name)
+
+  puts "Cloudformation Stack: #{@stack_name} updated."
+end

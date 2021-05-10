@@ -25,7 +25,7 @@ task 'deploy:cluster' do
   cloudformation_client = Aws::CloudFormation::Client.new
   begin
     cloudformation_client.describe_stacks({
-                                            stack_name: @cluster_name
+                                            stack_name: @ecr_name
                                           })
     begin
       Rake::Task['update:cluster'].invoke
@@ -34,6 +34,23 @@ task 'deploy:cluster' do
     end
   rescue StandardError
     Rake::Task['create:cluster'].invoke
+  end
+end
+
+desc 'Deploy c7n ECR Repo'
+task 'deploy:ecr' do
+  cloudformation_client = Aws::CloudFormation::Client.new
+  begin
+    cloudformation_client.describe_stacks({
+                                            stack_name: @cluster_name
+                                          })
+    begin
+      Rake::Task['ecr:update'].invoke
+    rescue StandardError
+      puts 'No Updates'
+    end
+  rescue StandardError
+    Rake::Task['ecr:create'].invoke
   end
 end
 
