@@ -25,7 +25,7 @@ task 'deploy:cluster' do
   cloudformation_client = Aws::CloudFormation::Client.new
   begin
     cloudformation_client.describe_stacks({
-                                            stack_name: @ecr_name
+                                            stack_name: @cluster_name
                                           })
     begin
       Rake::Task['update:cluster'].invoke
@@ -42,7 +42,7 @@ task 'deploy:ecr' do
   cloudformation_client = Aws::CloudFormation::Client.new
   begin
     cloudformation_client.describe_stacks({
-                                            stack_name: @cluster_name
+                                            stack_name: @ecr_name
                                           })
     begin
       Rake::Task['ecr:update'].invoke
