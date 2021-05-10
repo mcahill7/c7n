@@ -9,4 +9,6 @@ ADD entrypoint.sh /entrypoint.sh
  
 RUN chmod +x /script.sh /entrypoint.sh
 
+USER c7n
+
 ENTRYPOINT /entrypoint.sh
