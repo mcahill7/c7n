@@ -274,15 +274,15 @@ Resources:
   DummyTargetGroupPublic:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 6
-      HealthCheckPath: /
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 2
+      #HealthCheckIntervalSeconds: 6
+      #HealthCheckPath: /
+      #HealthCheckProtocol: HTTP
+      #HealthCheckTimeoutSeconds: 5
+      #HealthyThresholdCount: 2
       Name: !Join ['-', [!Ref 'AWS::StackName', 'drop-1']]
       Port: 80
       Protocol: HTTP
-      UnhealthyThresholdCount: 2
+      #UnhealthyThresholdCount: 2
       VpcId: !Ref 'VPC'
   PublicLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -329,15 +329,15 @@ Resources:
   DummyTargetGroupPrivate:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 6
-      HealthCheckPath: /
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 2
+      #HealthCheckIntervalSeconds: 6
+      #HealthCheckPath: /
+      #HealthCheckProtocol: HTTP
+      #HealthCheckTimeoutSeconds: 5
+      #HealthyThresholdCount: 2
       Name: !Join ['-', [!Ref 'AWS::StackName', 'drop-2']]
       Port: 80
       Protocol: HTTP
-      UnhealthyThresholdCount: 2
+      #UnhealthyThresholdCount: 2
       VpcId: !Ref 'VPC'
   PrivateLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
