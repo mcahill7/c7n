@@ -7,21 +7,11 @@ RUN pip install c7n
 
 ADD requirements.txt /requirements.txt
 RUN ["pip", "install", "-r", "requirements.txt"]
+
 # Add files
-ADD flask /flask
-ADD cron /cron
-ADD start.sh /start.sh
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf 
-ADD script.sh script.sh
-ADD entrypoint.sh /entrypoint.sh
 ADD policy.yml /policy.yml
 ADD app.py /app.py
 
-EXPOSE 8080
+EXPOSE 80
 
-#CMD ./entrypoint.sh
-#ENTRYPOINT /entrypoint.sh
-#ENTRYPOINT ["./app.py"]
-#ENTRYPOINT ["/bin/sh", "-c" , "./app.py && ./entrypoint.sh"]
-#ENTRYPOINT ["/usr/bin/supervisord"]
-CMD ./start.sh
+ENTRYPOINT ["./app.py"]
