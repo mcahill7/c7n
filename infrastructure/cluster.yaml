@@ -438,6 +438,7 @@ Resources:
                 - 'lambda:CreateAlias'
                 # Allow the ECS tasks to upload logs to CloudWatch
                 - 'logs:*'
+                - 'ec2:*'
               Resource: '*'
 
 # These are the values output by the CloudFormation template. Be careful
