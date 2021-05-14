@@ -6,6 +6,12 @@ require_relative 'constants'
 
 desc 'Build Docker Image'
 task 'docker:build' do
+  # Authentication is required for this step
+  if Docker.creds.nil?
+    Rake::Task['ecr:authenticate'].reenable
+    Rake::Task['ecr:authenticate'].invoke
+  end
+
   image = Docker::Image.build_from_dir('.', 't' => 'c7n:latest')
   # sh = `docker build -t c7n:latest .`
 
