@@ -314,6 +314,7 @@ Resources:
                   - ecr:*
                   - ecs:*
                   - ec2:*
+                  - logs:*
                 Resource:
                   - '*'
   ActionBuild:
