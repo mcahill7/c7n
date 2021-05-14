@@ -54,6 +54,12 @@ Conditions:
 
 Resources:
 
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties: 
+      LogGroupName: !Join ['-', [!Ref 'StackName', 'task-logs']]
+      RetentionInDays: 30
+
   # The task definition. This is a simple metadata description of what
   # container to run, and what resource requirements it has.
   TaskDefinition:
