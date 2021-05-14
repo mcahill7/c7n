@@ -82,6 +82,10 @@ Resources:
             - ContainerPort: !Ref 'ContainerPort'
           LogConfiguration:
             LogDriver: awslogs
+            Options:
+              awslogs-group: !Join ['-', [!Ref 'StackName', 'task-logs']]
+              awslogs-region: us-east-1
+              awslogs-stream-prefix: c7n
 
   # The service. The service is a resource which allows you to run multiple
   # copies of a type of task, and gather up their logs and metrics, as well
