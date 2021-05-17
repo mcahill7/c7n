@@ -32,3 +32,8 @@ This will create a cloudformation stack: c7n-pipeline which contains the necessa
 - Deploy ECS Cluster cloudformation stack
 - Deploy ECS Service cloudformation stack
 - Test Infrastructure
+
+## Validating Deployment
+To validate that c7n is running as expected we can view the logs in cloudwatch log groups as seen below:
+
+![alt text](./images/logs.png)
