@@ -1,9 +1,12 @@
 # Quickstart Pipeline for cloudcustodian/c7n
 
+This repository contains the necessary code to build and deploy c7n as a containerized application into ECS.
+Once deployed this allows users to define policies to enable a well managed cloud infrastructure that aligns with their security and cost needs and constantly enforce those policies.
 ## Prerequisites
 - Github Repository with the contents of this repository 
 - AWS Account and aws cli properly configured
 - Github Token with the following credentials:
+
 ![alt text](./images/token.png)
 
 ## Creating Pipeline
