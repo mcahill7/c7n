@@ -11,7 +11,7 @@ describe 'Dockerfile' do
     set :docker_image, image.id
   end
 
-  # describe user('c7n') do
-  #   it { should exist }
-  # end
+  describe file('/policy.yml') do
+    it { should be_file }
+    it { should exist }
 end
