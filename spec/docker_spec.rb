@@ -14,4 +14,5 @@ describe 'Dockerfile' do
   describe file('/policy.yml') do
     it { should be_file }
     it { should exist }
+  end
 end
